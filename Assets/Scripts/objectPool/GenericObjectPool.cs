@@ -71,10 +71,11 @@ public class GenericObjectPool<T> : MonoBehaviour, IObjectPool<T> where T : Mono
             T inst = Instantiate(prefabs[Random.Range(0, prefabs.Length)], Vector3.zero, Quaternion.identity, p);
             inst.transform.localScale = Vector3.one;
             inst.gameObject.SetActive(false);
+            inst.name = instanceCount.ToString();
             reusableInstances.Push(inst);
+            instanceCount++;
 
         }
-        instanceCount += n;
     }
 
     public void RecycleCache(int n) {
@@ -83,7 +84,12 @@ public class GenericObjectPool<T> : MonoBehaviour, IObjectPool<T> where T : Mono
         for (int i = 0; i < n; i++)
         {
             T inst = reusableInstances.Pop();
-            DestroyImmediate(inst);
+            inst.gameObject.SetActive(true);
+
+            if (Application.isEditor)
+                Object.DestroyImmediate(inst.gameObject);
+            else
+                Object.Destroy(inst.gameObject);
         }
         instanceCount -= n;
     }

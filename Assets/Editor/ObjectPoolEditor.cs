@@ -4,26 +4,24 @@ using UnityEngine;
 using UnityEditor;
 
 [CustomEditor(typeof(SceneObjectObjectPool))]
-[System.Serializable]
 public class ObjectPoolEditor : Editor
 {
-    int cacheCount = 15000;
-    Transform parent;
     public override void OnInspectorGUI()
     {
         SceneObjectObjectPool myScript = (SceneObjectObjectPool)target;
         DrawDefaultInspector();
 
-        EditorGUILayout.IntField("Cache Count", cacheCount);
-        EditorGUILayout.ObjectField("Parent", parent, typeof(Transform));
+        myScript.cacheCount = EditorGUILayout.IntField("Cache Count", myScript.cacheCount);
+        myScript.parent = EditorGUILayout.ObjectField("Parent", myScript.parent, typeof(Transform), true) as Transform;
+
         if (GUILayout.Button("Cache Pool"))
         {
-            myScript.PreCachePool(cacheCount, parent);
+            myScript.PreCachePool(myScript.cacheCount, myScript.parent);
         }
 
         if (GUILayout.Button("Recycle Pool"))
         {
-            myScript.RecycleCache(cacheCount);
+            myScript.RecycleCache(myScript.cacheCount);
         }
 
         //EditorGUI.ObjectField(parent);
