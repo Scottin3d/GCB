@@ -15,8 +15,9 @@ public class GenericObjectPool<T> : MonoBehaviour, IObjectPool<T> where T : Mono
     [SerializeField]
     protected int isntanceCount = 0;
     /// <summary>
-    /// Returns instance of prefab.
+    /// Returns instance of prefab with parent.
     /// </summary>
+    /// <param name="p">Parent <c>Transform</c>.</param>
     /// <returns>Instance of prefab.</returns>
     public T GetPrefabInstance(Transform p = null)
     {
@@ -48,9 +49,26 @@ public class GenericObjectPool<T> : MonoBehaviour, IObjectPool<T> where T : Mono
         return inst;
     }
 
+    /// <summary>
+    /// Returns instance of prefab without parent.
+    /// </summary>
+    /// <returns></returns>
     public T GetPrefabInstance()
     {
         return GetPrefabInstance(null);
+    }
+
+
+    public void PreCachePool(int n) {
+        for (int i = 0; i < n; i++)
+        {
+            T inst = Instantiate(prefabs[Random.Range(0, prefabs.Length)], Vector3.zero, Quaternion.identity,null);
+            inst.transform.localScale = Vector3.one;
+            inst.gameObject.SetActive(false);
+            reusableInstances.Push(inst);
+
+        }
+        isntanceCount += n;
     }
 
     /// <summary>

@@ -26,12 +26,22 @@ public class ObjectSpawner : MonoBehaviour
     }
     private void Start()
     {
-        pathMapping = GetComponent<PathMapping>();
-        Jitter = jitter * pathMapping.PathMapCell;
-        Spawn();
+        Init(false);
+        Spawn(false);
     }
 
-    protected virtual void Spawn() {
+    private void Init(bool init)
+    {
+        pathMapping = GetComponent<PathMapping>();
+        if (!init) { pathMapping.CacheValues(); }
+        Density = Mathf.Clamp01(density);
+        Jitter = jitter * pathMapping.PathMapCell;
+    }
+
+    public virtual void Spawn(bool init) {
+        Init(init);
+        if (spawnedObjects != null) { RecycleObjects(); }
+
         float[,] map = PathMapping.PathOpacityMap;
         MapCell[,] cachedMapCells = pathMapping.CachedMapCells;
         spawnedObjects = new SceneObject[map.GetLength(0), map.GetLength(1)];
@@ -80,6 +90,16 @@ public class ObjectSpawner : MonoBehaviour
             }
         }
 
+    }
+
+    protected virtual void RecycleObjects() {
+        for (int x = 0; x < spawnedObjects.GetLength(0); x++)
+        {
+            for (int z = 0; z < spawnedObjects.GetLength(1); z++)
+            {
+                spawnedObjects[x, z].ReturnToPool();
+            }
+        }
     }
 
     protected IEnumerator DestroyEffect(SceneObject obj)

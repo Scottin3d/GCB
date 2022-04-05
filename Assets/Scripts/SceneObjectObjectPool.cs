@@ -10,5 +10,4 @@ using UnityEngine;
 /// </summary>
 public class SceneObjectObjectPool : GenericObjectPool<SceneObject>
 {
-    public int InstanceCount => isntanceCount;
 }

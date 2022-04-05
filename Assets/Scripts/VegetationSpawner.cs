@@ -6,7 +6,7 @@ public class VegetationSpawner : ObjectSpawner
 {
     private static bool updateGrass = true;
     [SerializeField] private float updateGrassInterval = 2f;
-    protected override void Spawn() {
+    public override void Spawn(bool init) {
         float[,] map = PathMapping.PathOpacityMap;
         MapCell[,] cachedMapCells = pathMapping.CachedMapCells;
         spawnedObjects = new SceneObject[map.GetLength(0), map.GetLength(1)];

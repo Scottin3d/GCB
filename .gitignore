@@ -25,6 +25,7 @@
 *.exr 
 *.wav
 *.psd
+*.hdr
 *.fbx
 *.meta
 # Visual Studio cache directory

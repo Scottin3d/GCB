@@ -37,6 +37,19 @@ public class PathMapping : MonoBehaviour
         //StartCoroutine(CacheMapValueCoroutine());
     }
 
+    public void CacheValues() {
+            cachedMapCells = new MapCell[pathMapResolution, pathMapResolution];
+            mapHeightCache = new Vector3[pathMapResolution, pathMapResolution];
+            //mapVertexCache = GetComponent<MeshFilter>().mesh.vertices;
+            mapVertexCache = new Vector3[pathMapResolution, pathMapResolution];
+
+            mat = GetComponent<MeshRenderer>().material;
+            pathOpactityMap = new float[pathMapResolution, pathMapResolution];
+            pathMapCell = 243f / pathMapResolution;
+
+            CacheMapValues();
+    }
+
     private void Start()
     {
         StartCoroutine(FadeMap());
