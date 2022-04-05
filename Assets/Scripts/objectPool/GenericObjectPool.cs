@@ -13,7 +13,7 @@ public class GenericObjectPool<T> : MonoBehaviour, IObjectPool<T> where T : Mono
     // References to reusable instances
     private Stack<T> reusableInstances = new Stack<T>();
     [SerializeField]
-    protected int isntanceCount = 0;
+    protected int instanceCount = 0;
     /// <summary>
     /// Returns instance of prefab with parent.
     /// </summary>
@@ -40,7 +40,7 @@ public class GenericObjectPool<T> : MonoBehaviour, IObjectPool<T> where T : Mono
         else
         {
             inst = Instantiate(prefabs[Random.Range(0, prefabs.Length)], p);
-            isntanceCount++;
+            instanceCount++;
         }
         // set reference to pool
         inst.Orgin = this;
@@ -58,17 +58,34 @@ public class GenericObjectPool<T> : MonoBehaviour, IObjectPool<T> where T : Mono
         return GetPrefabInstance(null);
     }
 
+    public void PreCachePool(int n)
+    {
+        PreCachePool(n, null);
+    }
+    public void PreCachePool(int n, Transform p)
+    {
+        if (n < reusableInstances.Count) { return; }
 
-    public void PreCachePool(int n) {
         for (int i = 0; i < n; i++)
         {
-            T inst = Instantiate(prefabs[Random.Range(0, prefabs.Length)], Vector3.zero, Quaternion.identity,null);
+            T inst = Instantiate(prefabs[Random.Range(0, prefabs.Length)], Vector3.zero, Quaternion.identity, p);
             inst.transform.localScale = Vector3.one;
             inst.gameObject.SetActive(false);
             reusableInstances.Push(inst);
 
         }
-        isntanceCount += n;
+        instanceCount += n;
+    }
+
+    public void RecycleCache(int n) {
+        if (n > reusableInstances.Count) { n = reusableInstances.Count; }
+
+        for (int i = 0; i < n; i++)
+        {
+            T inst = reusableInstances.Pop();
+            DestroyImmediate(inst);
+        }
+        instanceCount -= n;
     }
 
     /// <summary>

@@ -15,4 +15,5 @@ public interface IObjectPool<T> : IObjectPool where T : IPoolable
     T GetPrefabInstance();
     void ReturnToPool(T instance);
     void PreCachePool(int n);
+    void RecycleCache(int n);
 }
