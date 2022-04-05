@@ -21,9 +21,12 @@
 
 # Art Assets
 *.png
+*.tif
+*.exr 
+*.wav
 *.psd
 *.fbx
-
+*.meta
 # Visual Studio cache directory
 .vs/
 
