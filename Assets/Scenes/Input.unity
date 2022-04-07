@@ -150,6 +150,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 552271550}
   m_Father: {fileID: 0}
@@ -167,12 +168,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aad4f8b78b012ee4d8ae20970c96c04f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetTransform: {fileID: 696001170}
+  targetTransform: {fileID: 365854254}
   cameraTransform: {fileID: 793440337}
   cameraPivotTransform: {fileID: 552271550}
   lookSpeed: 0.1
   followSpeed: 0.1
   pivotSpeed: 0.03
+  stepSize: 2
+  zoomDamping: 7.5
+  minHeight: 0
+  maxHeight: 25
+  zoomSpeed: 2
+  maxRotationSpeed: 1
+  defaultZoomHeight: 10
   minPivot: -35
   maxPivot: 35
 --- !u!1 &552271549
@@ -199,8 +207,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 552271549}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1.5, z: -1.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 793440337}
   m_Father: {fileID: 365854254}
@@ -216,6 +225,7 @@ GameObject:
   m_Component:
   - component: {fileID: 577404619}
   - component: {fileID: 577404618}
+  - component: {fileID: 577404620}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -295,19 +305,34 @@ Transform:
   m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &577404620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 577404617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 1
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
 --- !u!54 &696001168 stripped
 Rigidbody:
   m_CorrespondingSourceObject: {fileID: 3988041900019721056, guid: f62c39dcb3717444da245fbadeb19358,
-    type: 3}
-  m_PrefabInstance: {fileID: 1121992719}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &696001170 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3988041900019721058, guid: f62c39dcb3717444da245fbadeb19358,
     type: 3}
   m_PrefabInstance: {fileID: 1121992719}
   m_PrefabAsset: {fileID: 0}
@@ -389,8 +414,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 793440334}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.49, z: -2.64}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 552271550}
   m_RootOrder: 0
@@ -417,6 +443,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 0
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
@@ -814,6 +841,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3988041900019721057, guid: f62c39dcb3717444da245fbadeb19358,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 3988041900019721058, guid: f62c39dcb3717444da245fbadeb19358,
         type: 3}
       propertyPath: m_RootOrder
@@ -878,6 +910,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3988041900019721085, guid: f62c39dcb3717444da245fbadeb19358,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3988041900019721086, guid: f62c39dcb3717444da245fbadeb19358,
         type: 3}
@@ -976,6 +1013,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -1024,6 +1062,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 10}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
