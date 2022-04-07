@@ -24,6 +24,15 @@ public class ObjectPoolEditor : Editor
             myScript.RecycleCache(myScript.cacheCount);
         }
 
+        if(GUILayout.Button("Force Delete"))
+        {
+            for (int i = 0; i < myScript.parent.childCount; i++)
+            {
+                GameObject t = myScript.parent.GetChild(i).gameObject;
+                DestroyImmediate(t);
+            }
+        }
+
         //EditorGUI.ObjectField(parent);
         //EditorGUILayout.HelpBox("This is a help box", MessageType.Info);
     }

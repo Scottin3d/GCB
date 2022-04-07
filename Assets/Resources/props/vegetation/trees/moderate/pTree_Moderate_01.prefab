@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 2487492848229010749}
   - component: {fileID: 562710781520928002}
   - component: {fileID: 6791150488016626699}
+  - component: {fileID: -870594014954783935}
+  - component: {fileID: -5058708816746560830}
   m_Layer: 10
   m_Name: pTree_Moderate_01
   m_TagString: tree
@@ -64,6 +66,33 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0.54, z: -0.03}
   m_TimeToStationary: 0.5
+--- !u!114 &-870594014954783935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5687070777964629121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f575d433a4e1af409989e0af5e60221, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-5058708816746560830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5687070777964629121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5494b33d0399ce44830683277bfe675, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weather: {fileID: 11400000, guid: 220fa90074b3e944aac4c04dfa7ea3d7, type: 2}
+  mat: {fileID: 2100000, guid: e68074ee5872f7a40a04bd50ba7ecd2a, type: 2}
+  visualRoot: {fileID: 7004679620554160962}
 --- !u!1 &6521241813431318325
 GameObject:
   m_ObjectHideFlags: 0

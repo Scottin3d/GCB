@@ -92,6 +92,7 @@ public class GenericObjectPool<T> : MonoBehaviour, IObjectPool<T> where T : Mono
                 Object.Destroy(inst.gameObject);
         }
         instanceCount -= n;
+        reusableInstances = new Stack<T>();
     }
 
     /// <summary>

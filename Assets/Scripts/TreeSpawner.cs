@@ -4,4 +4,5 @@ using UnityEngine;
 
 public class TreeSpawner : ObjectSpawner
 {
+    public bool cachedValues = false;
 }

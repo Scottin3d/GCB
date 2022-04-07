@@ -6,15 +6,20 @@ using UnityEditor;
 [CustomEditor(typeof(TreeSpawner))]
 public class TreeSpawnerEditor : Editor
 {
-    public bool cachedValues = false;
+    
     public override void OnInspectorGUI()
     {
-        TreeSpawner myScript = (TreeSpawner)target;
         DrawDefaultInspector();
+        TreeSpawner myScript = (TreeSpawner)target;
+        GUILayout.Label("Precaching of Trees.");
+
         if (GUILayout.Button("Generate")) {
-            myScript.Spawn(cachedValues);
-            cachedValues = true;
+            myScript.Spawn(false);
+            myScript.cachedValues = true;
         }
-        //EditorGUILayout.HelpBox("This is a help box", MessageType.Info);
+
+        if (GUILayout.Button("Clear")) {
+            myScript.RecycleObjects();
+        }
     }
 }

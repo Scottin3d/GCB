@@ -31,7 +31,7 @@ public class PathMapping : MonoBehaviour
         
         mat = GetComponent<MeshRenderer>().material;
         pathOpactityMap = new float[pathMapResolution, pathMapResolution];
-        pathMapCell = 243f / pathMapResolution;
+        pathMapCell = 32f / pathMapResolution;
 
         CacheMapValues();
         //StartCoroutine(CacheMapValueCoroutine());
@@ -43,7 +43,7 @@ public class PathMapping : MonoBehaviour
             //mapVertexCache = GetComponent<MeshFilter>().mesh.vertices;
             mapVertexCache = new Vector3[pathMapResolution, pathMapResolution];
 
-            mat = GetComponent<MeshRenderer>().material;
+            mat = GetComponent<MeshRenderer>().sharedMaterial;
             pathOpactityMap = new float[pathMapResolution, pathMapResolution];
             pathMapCell = 243f / pathMapResolution;
 
