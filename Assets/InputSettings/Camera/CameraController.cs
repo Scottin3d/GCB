@@ -77,8 +77,8 @@ public class CameraController : MonoBehaviour
 
         lastPosition = transform.position;
         movement = cameraAction.CameraActionMap.Movement;
-        cameraAction.CameraActionMap.RotateCamera.performed += RotateCamera;
-        cameraAction.CameraActionMap.ZoomCamera.performed += ZoomCamera;
+        //cameraAction.CameraActionMap.RotateCamera.performed += RotateCamera;
+        //cameraAction.CameraActionMap.ZoomCamera.performed += ZoomCamera;
         cameraAction.CameraActionMap.Enable();
     }
 
@@ -86,8 +86,8 @@ public class CameraController : MonoBehaviour
 
     private void OnDisable()
     {
-        cameraAction.CameraActionMap.RotateCamera.performed -= RotateCamera;
-        cameraAction.CameraActionMap.ZoomCamera.performed -= ZoomCamera;
+        //cameraAction.CameraActionMap.RotateCamera.performed -= RotateCamera;
+        //cameraAction.CameraActionMap.ZoomCamera.performed -= ZoomCamera;
         cameraAction.CameraActionMap.Disable();
     }
 
@@ -137,10 +137,10 @@ public class CameraController : MonoBehaviour
         transform.rotation = Quaternion.Euler(0f, value * maxRotationSpeed + transform.rotation.eulerAngles.y, 0f);
     }
 
-    private void RotateCamera(float inputValue)
+    public void RotateCamera(float value)
     {
         if (!Mouse.current.middleButton.isPressed) { return; }
-        transform.rotation = Quaternion.Euler(0f, inputValue * maxRotationSpeed + transform.rotation.eulerAngles.y, 0f);
+        transform.rotation = Quaternion.Euler(0f, value * maxRotationSpeed + transform.rotation.eulerAngles.y, 0f);
     }
 
     private void ZoomCamera(InputAction.CallbackContext inputValue)

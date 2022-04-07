@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CameraHandler : MonoBehaviour
 {
@@ -23,6 +24,25 @@ public class CameraHandler : MonoBehaviour
     public float minPivot = -35f;
     public float maxPivot = 35f;
 
+    // rotation
+    [SerializeField]
+    float maxRotationSpeed = 1f;
+
+    // vertical motion - zooming
+    [SerializeField]
+    float stepSize = 2f;
+    [SerializeField]
+    float zoomDamping = 7.5f;
+    [SerializeField]
+    float minHeight = 1f;
+    [SerializeField]
+    float maxHeight = 20f;
+    [SerializeField]
+    float zoomSpeed = 2f;
+    [SerializeField]
+    float zoomHeight;
+    float defaultZoomHeight = 5f;
+
     private void Awake()
     {
         singleton = this;
@@ -32,7 +52,10 @@ public class CameraHandler : MonoBehaviour
     }
 
     public void FollowTarget(float delta) {
-        Vector3 targetPosition = Vector3.Lerp(myTransform.position, targetTransform.position, delta / followSpeed);
+        Vector3 zoomTarget = new Vector3(targetTransform.localPosition.x, zoomHeight, targetTransform.localPosition.z);
+        zoomTarget -= zoomSpeed * (zoomHeight - myTransform.localPosition.y) * Vector3.forward;
+
+        Vector3 targetPosition = Vector3.Lerp(myTransform.position, zoomTarget, delta / followSpeed);
         myTransform.position = targetPosition;
     }
 
@@ -51,5 +74,45 @@ public class CameraHandler : MonoBehaviour
 
         targetRotation = Quaternion.Euler(rotation);
         cameraPivotTransform.localRotation = targetRotation;
+    }
+
+    public void HandleCameraRotationKeyPress(float delta) {
+        float mouseXInput = 0f;
+        float mouseYInput = 0f;
+        if (Keyboard.current.qKey.isPressed) {
+            mouseXInput = 1f;
+        } else if (Keyboard.current.eKey.isPressed) {
+            mouseXInput = -1f;
+        }
+        //myTransform.rotation = Quaternion.Euler(0f, value * maxRotationSpeed + myTransform.rotation.eulerAngles.y, 0f);
+        HandleCameraRotation(delta, mouseXInput, mouseYInput);
+    }
+
+    public void ZoomCamera(float delta, float mouseYInput)
+    {
+        float value = -mouseYInput / 100f;
+        if (Mathf.Abs(value) > 0.1f)
+        {
+            zoomHeight = myTransform.localPosition.y + value * stepSize;
+            if (zoomHeight < minHeight)
+            {
+                zoomHeight = minHeight;
+            }
+            else if (zoomHeight > maxHeight)
+            {
+                zoomHeight = maxHeight;
+            }
+        }
+
+        //cameraTransform.LookAt(targetTransform);
+
+    }
+
+    public void UpdateCameraPosition()
+    {
+        Vector3 zoomTarget = new Vector3(cameraPivotTransform.localPosition.x, zoomHeight, cameraPivotTransform.localPosition.z);
+        zoomTarget -= zoomSpeed * (zoomHeight - cameraPivotTransform.localPosition.y) * Vector3.forward;
+        cameraPivotTransform.localPosition = Vector3.Lerp(cameraPivotTransform.localPosition, zoomTarget, Time.deltaTime * zoomDamping);
+        cameraPivotTransform.LookAt(targetTransform);
     }
 }

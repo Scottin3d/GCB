@@ -76,8 +76,6 @@ using UnityEngine;
             Quaternion targetRoation = Quaternion.Slerp(myTransform.rotation, tr, rs * delta);
 
             myTransform.rotation = targetRoation;
-            Debug.Log(string.Format("targetDir: {0} rs: {1} rotationSpeed: {2}", targetDir, rs, rotationSpeed));
-
     }
     #endregion
 }

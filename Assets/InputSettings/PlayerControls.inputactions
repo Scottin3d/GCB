@@ -28,9 +28,18 @@
                     "type": "Value",
                     "id": "368e70da-6541-4c5b-aec9-1965465d0c3a",
                     "expectedControlType": "Vector2",
-                    "processors": "",
+                    "processors": "NormalizeVector2",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "RotateCameraKeys",
+                    "type": "Button",
+                    "id": "556af843-c31c-4a58-9a41-398c58dd8599",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -110,6 +119,28 @@
                     "action": "ZoomCamera",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "abc4f78d-a17c-4bb9-b5e1-2af47c26fa2d",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateCameraKeys",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "adcb9fcc-c32d-4570-b94e-606efc0dce0a",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateCameraKeys",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -139,10 +170,19 @@
                     "name": "ZoomCamera",
                     "type": "Value",
                     "id": "0a1308f8-62d9-4616-8bfc-6a95c9ad60d6",
+                    "expectedControlType": "Axis",
+                    "processors": "Normalize(min=-1,max=1)",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "RotateCameraKeys",
+                    "type": "PassThrough",
+                    "id": "926c335c-9381-47e1-a62b-ad0ae5feae08",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -226,11 +266,33 @@
                 {
                     "name": "",
                     "id": "f0237bc1-ca26-4b79-941a-2bec552932ff",
-                    "path": "<Mouse>/scroll",
+                    "path": "<Mouse>/scroll/y",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "ZoomCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "800aac92-7a90-4277-9fc4-e59aad1c5749",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateCameraKeys",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9b5dc5c9-9897-45a0-be47-5158fe496457",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateCameraKeys",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

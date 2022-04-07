@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+
 
 public class InputHandler : MonoBehaviour
 {
@@ -9,12 +11,16 @@ public class InputHandler : MonoBehaviour
     public float moveAmount;
     public float mouseX;
     public float mouseY;
+    private float mouseScrollY;
+    private float mouseScrollX;
 
     PlayerControls inputActions;
     CameraHandler cameraHandler;
+    CameraController cameraController;
 
     Vector2 movementInput;
     Vector2 cameraInput;
+    float cameraScroll;
     private void Start()
     {
         cameraHandler = CameraHandler.singleton;
@@ -25,7 +31,15 @@ public class InputHandler : MonoBehaviour
         float delta = Time.fixedDeltaTime;
         if (cameraHandler != null) {
             cameraHandler.FollowTarget(delta);
-            cameraHandler.HandleCameraRotation(delta, mouseX, mouseY);
+            cameraHandler.HandleCameraRotationKeyPress(delta);
+            //cameraHandler.HandleCameraRotation(delta, mouseX, mouseY);
+            cameraHandler.ZoomCamera(delta, mouseScrollY);
+            cameraHandler.UpdateCameraPosition();
+            cameraScroll = 0f;
+        }
+
+        if (cameraController != null) {
+            cameraController.RotateCamera(mouseX);
         }
     }
 
@@ -36,7 +50,7 @@ public class InputHandler : MonoBehaviour
             inputActions = new PlayerControls();
             inputActions.PlayerMovement.Movement.performed += inputActions => movementInput = inputActions.ReadValue<Vector2>();
             inputActions.PlayerMovement.Camera.performed += i => cameraInput = i.ReadValue<Vector2>();
-
+            inputActions.PlayerMovement.ZoomCamera.performed += z => cameraScroll = z.ReadValue<float>();
         }
         inputActions.Enable();
     }
@@ -48,6 +62,7 @@ public class InputHandler : MonoBehaviour
 
     public void TickInput(float delta)
     {
+        
         MoveInput(delta);
     }
 
@@ -58,6 +73,7 @@ public class InputHandler : MonoBehaviour
         moveAmount = Mathf.Clamp01(Mathf.Abs(horizontal) + Mathf.Abs(vertical));
         mouseX = cameraInput.x;
         mouseY = cameraInput.y;
+        mouseScrollY = cameraScroll;
     }
 
 }
