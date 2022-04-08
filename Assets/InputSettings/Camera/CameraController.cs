@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 
 public class CameraController : MonoBehaviour
 {
+    private InputManager inputManager;
+    public static CameraController singleton;
     private CameraControlActions cameraAction;
     private InputAction movement;
     private Transform cameraTransform;
@@ -52,8 +54,14 @@ public class CameraController : MonoBehaviour
 
     private void Awake()
     {
+        singleton = this;
         cameraAction = new CameraControlActions();
         cameraTransform = GetComponentInChildren<Camera>().transform;
+    }
+
+    private void Start()
+    {
+        inputManager = InputManager.singleton;
     }
 
     private void Update()
@@ -77,8 +85,8 @@ public class CameraController : MonoBehaviour
 
         lastPosition = transform.position;
         movement = cameraAction.CameraActionMap.Movement;
-        //cameraAction.CameraActionMap.RotateCamera.performed += RotateCamera;
-        //cameraAction.CameraActionMap.ZoomCamera.performed += ZoomCamera;
+        cameraAction.CameraActionMap.RotateCamera.performed += RotateCamera;
+        cameraAction.CameraActionMap.ZoomCamera.performed += ZoomCamera;
         cameraAction.CameraActionMap.Enable();
     }
 
@@ -86,8 +94,8 @@ public class CameraController : MonoBehaviour
 
     private void OnDisable()
     {
-        //cameraAction.CameraActionMap.RotateCamera.performed -= RotateCamera;
-        //cameraAction.CameraActionMap.ZoomCamera.performed -= ZoomCamera;
+        cameraAction.CameraActionMap.RotateCamera.performed -= RotateCamera;
+        cameraAction.CameraActionMap.ZoomCamera.performed -= ZoomCamera;
         cameraAction.CameraActionMap.Disable();
     }
 

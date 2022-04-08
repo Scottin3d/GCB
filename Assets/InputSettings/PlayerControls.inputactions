@@ -15,7 +15,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "RotateCamera",
+                    "name": "CameraRotateMouse",
                     "type": "Value",
                     "id": "d1b84bcb-aacf-4a28-bb06-aee7647ee55b",
                     "expectedControlType": "Vector2",
@@ -24,7 +24,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "ZoomCamera",
+                    "name": "CameraZoom",
                     "type": "Value",
                     "id": "368e70da-6541-4c5b-aec9-1965465d0c3a",
                     "expectedControlType": "Vector2",
@@ -33,10 +33,10 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "RotateCameraKeys",
-                    "type": "Button",
-                    "id": "556af843-c31c-4a58-9a41-398c58dd8599",
-                    "expectedControlType": "Button",
+                    "name": "CameraRotateKeys",
+                    "type": "PassThrough",
+                    "id": "7ac2424c-c2c7-43de-b289-b2fce342cf4e",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -105,7 +105,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "RotateCamera",
+                    "action": "CameraRotateMouse",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -116,29 +116,29 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "ZoomCamera",
+                    "action": "CameraZoom",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "abc4f78d-a17c-4bb9-b5e1-2af47c26fa2d",
+                    "id": "0cad5f7e-d784-45d3-8dda-13ca678d4dc5",
                     "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "RotateCameraKeys",
+                    "action": "CameraRotateKeys",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "adcb9fcc-c32d-4570-b94e-606efc0dce0a",
+                    "id": "d896b875-d734-4f7f-8044-e9949a787d3e",
                     "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "RotateCameraKeys",
+                    "action": "CameraRotateKeys",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
