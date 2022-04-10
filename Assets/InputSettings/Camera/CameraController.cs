@@ -51,7 +51,7 @@ public class CameraController : MonoBehaviour
     Vector3 lastPosition;
     Vector3 startDrag;
 
-
+    #region MonoBehaviors
     private void Awake()
     {
         singleton = this;
@@ -62,131 +62,103 @@ public class CameraController : MonoBehaviour
     private void Start()
     {
         inputManager = InputManager.singleton;
-    }
-
-    private void Update()
-    {
-        GetKeyboardMovement();
-        if (useScreenEdge)
-        {
-            CheckMouseAtScreenEdge();
-        }
-        DragCamera();
-
-        UpdateVelocity();
-        UpdateCameraPosition();
-        UpdateBasePosition();
-    }
-
-    private void OnEnable()
-    {
         zoomHeight = defaultZoomHeight;
         cameraTransform.LookAt(transform);
-
         lastPosition = transform.position;
-        movement = cameraAction.CameraActionMap.Movement;
-        cameraAction.CameraActionMap.RotateCamera.performed += RotateCamera;
-        cameraAction.CameraActionMap.ZoomCamera.performed += ZoomCamera;
-        cameraAction.CameraActionMap.Enable();
     }
+    #endregion
 
-    
+    #region Public Functions
 
-    private void OnDisable()
+    /// <summary>
+    /// Updates all camera movement.
+    /// </summary>
+    /// <param name="delta">Time.DeltaTime</param>
+    public void UpdateCameraController(float delta) {
+        UpdateTargetPosition();
+        CheckMouseAtScreenEdge();
+        DragCamera();
+        UpdateVelocity();
+        UpdateCameraPosition(delta);
+        UpdateBasePosition(delta);
+        ZoomCamera();
+    }
+    public void RotateCamera(float delta)
     {
-        cameraAction.CameraActionMap.RotateCamera.performed -= RotateCamera;
-        cameraAction.CameraActionMap.ZoomCamera.performed -= ZoomCamera;
-        cameraAction.CameraActionMap.Disable();
+        transform.rotation = Quaternion.Euler(0f, delta * maxRotationSpeed + transform.rotation.eulerAngles.y, 0f);
     }
 
+    #endregion
+
+    #region Private Functions
     private void UpdateVelocity() {
         horizontalVelocity = (transform.position - lastPosition) / Time.deltaTime;
         horizontalVelocity.y = 0;
         lastPosition = transform.position;
     }
 
-    private void GetKeyboardMovement() {
-        Vector3 inputValue = movement.ReadValue<Vector2>().x * GetCameraRight() + movement.ReadValue<Vector2>().y * GetCameraForward();
+    private void UpdateTargetPosition() {
+        Vector3 inputValue = inputManager.horizontal * GetCameraRight() + inputManager.vertical * GetCameraForward();
         inputValue = inputValue.normalized;
         if (inputValue.sqrMagnitude > 0.1f) {
             targetPosition += inputValue;
         }
     }
 
-    private Vector3 GetCameraRight() {
-        Vector3 right = cameraTransform.right;
-        right.y = 0f;
-        return right;
-    }
-
-    private Vector3 GetCameraForward() {
-        Vector3 forward = cameraTransform.forward;
-        forward.y = 0f;
-        return forward;
-    }
-
-    private void UpdateBasePosition() {
+    private void UpdateBasePosition(float delta) {
         if (targetPosition.sqrMagnitude > 0.1f)
         {
-            speed = Mathf.Lerp(speed, maxSpeed, Time.deltaTime * acceleration);
-            transform.position += targetPosition * speed * Time.deltaTime;
+            speed = Mathf.Lerp(speed, maxSpeed, delta * acceleration);
+            transform.position += targetPosition * speed * delta;
         }
         else {
-            horizontalVelocity = Vector3.Lerp(horizontalVelocity, Vector3.zero, Time.deltaTime * damping);
-            transform.position += horizontalVelocity * Time.deltaTime;
+            horizontalVelocity = Vector3.Lerp(horizontalVelocity, Vector3.zero, delta * damping);
+            transform.position += horizontalVelocity * delta;
         }
         targetPosition = Vector3.zero;
     }
 
-    private void RotateCamera(InputAction.CallbackContext inputValue)
-    {
-        if (!Mouse.current.middleButton.isPressed) { return; }
-        float value = inputValue.ReadValue<Vector2>().x;
-        transform.rotation = Quaternion.Euler(0f, value * maxRotationSpeed + transform.rotation.eulerAngles.y, 0f);
-    }
 
-    public void RotateCamera(float value)
+    private void ZoomCamera()
     {
-        if (!Mouse.current.middleButton.isPressed) { return; }
-        transform.rotation = Quaternion.Euler(0f, value * maxRotationSpeed + transform.rotation.eulerAngles.y, 0f);
-    }
-
-    private void ZoomCamera(InputAction.CallbackContext inputValue)
-    {
-        float value = -inputValue.ReadValue<Vector2>().y / 100f;
-        if (Mathf.Abs(value) > 0.1f) {
+        float value = -inputManager.mouseScroll / 100f;
+        if (Mathf.Abs(value) > 0.1f)
+        {
             zoomHeight = cameraTransform.localPosition.y + value * stepSize;
-            if (zoomHeight < minHeight) {
+            if (zoomHeight < minHeight)
+            {
                 zoomHeight = minHeight;
-            } else if (zoomHeight > maxHeight) {
+            }
+            else if (zoomHeight > maxHeight)
+            {
                 zoomHeight = maxHeight;
             }
         }
     }
 
-    private void UpdateCameraPosition() {
+    private void UpdateCameraPosition(float delta) {
         Vector3 zoomTarget = new Vector3(cameraTransform.localPosition.x, zoomHeight, cameraTransform.localPosition.z);
         zoomTarget -= zoomSpeed * (zoomHeight - cameraTransform.localPosition.y) * Vector3.forward;
-        cameraTransform.localPosition = Vector3.Lerp(cameraTransform.localPosition, zoomTarget, Time.deltaTime * zoomDamping);
+        cameraTransform.localPosition = Vector3.Lerp(cameraTransform.localPosition, zoomTarget, delta * zoomDamping);
         cameraTransform.LookAt(transform);
     }
 
     private void CheckMouseAtScreenEdge() {
-        Vector2 mousePosition = Mouse.current.position.ReadValue();
+        if (!useScreenEdge) return;
         Vector3 moveDirection = Vector3.zero;
 
-        if (mousePosition.x < edgeTolerance * Screen.width)
+        if (inputManager.mousePositionX < edgeTolerance * Screen.width)
         {
             moveDirection += -GetCameraRight();
         }
-        else if (mousePosition.x > (1f - edgeTolerance) * Screen.width)
+        else if (inputManager.mousePositionX > (1f - edgeTolerance) * Screen.width)
         {
             moveDirection += GetCameraRight();
         }
-        else if (mousePosition.y < edgeTolerance * Screen.height) { 
+        else if (inputManager.mousePositionY < edgeTolerance * Screen.height) { 
             moveDirection += -GetCameraForward();
         }
-        else if (mousePosition.y > (1f - edgeTolerance) * Screen.height)
+        else if (inputManager.mousePositionY > (1f - edgeTolerance) * Screen.height)
         {
             moveDirection += GetCameraForward();
         }
@@ -198,8 +170,8 @@ public class CameraController : MonoBehaviour
         if (!Mouse.current.rightButton.isPressed) { return; }
 
         Plane plane = new Plane(Vector3.up, Vector3.zero);
-        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-
+        Vector2 mousePosition = new Vector2(inputManager.mousePositionX, inputManager.mousePositionY);
+        Ray ray = Camera.main.ScreenPointToRay(mousePosition);
         if (plane.Raycast(ray, out float distance)) {
             if (Mouse.current.rightButton.wasPressedThisFrame)
             {
@@ -210,4 +182,19 @@ public class CameraController : MonoBehaviour
             }
         }
     }
+
+    private Vector3 GetCameraRight()
+    {
+        Vector3 right = cameraTransform.right;
+        right.y = 0f;
+        return right;
+    }
+
+    private Vector3 GetCameraForward()
+    {
+        Vector3 forward = cameraTransform.forward;
+        forward.y = 0f;
+        return forward;
+    }
+    #endregion
 }

@@ -7,6 +7,8 @@ public class PlayerManager : MonoBehaviour
 
     private CameraController cameraController;
     private InputManager inputManager;
+
+    #region MonoBehaviors
     private void Start()
     {
         cameraController = CameraController.singleton;
@@ -19,7 +21,20 @@ public class PlayerManager : MonoBehaviour
         inputManager.TickInput(delta);
         if (cameraController != null)
         {
-
+            cameraController.UpdateCameraController(delta);
         }
     }
+
+    // used to reset flags
+    private void LateUpdate()
+    {
+        inputManager.ResetFlags();
+    }
+    #endregion
+
+    #region Public Functions
+    #endregion
+
+    #region Private Functions
+    #endregion
 }

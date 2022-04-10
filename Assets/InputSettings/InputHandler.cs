@@ -37,10 +37,6 @@ public class InputHandler : MonoBehaviour
             cameraHandler.UpdateCameraPosition();
             cameraScroll = 0f;
         }
-
-        if (cameraController != null) {
-            cameraController.RotateCamera(mouseX);
-        }
     }
 
     public void OnEnable()
@@ -51,6 +47,7 @@ public class InputHandler : MonoBehaviour
             inputActions.PlayerMovement.Movement.performed += inputActions => movementInput = inputActions.ReadValue<Vector2>();
             inputActions.PlayerMovement.Camera.performed += i => cameraInput = i.ReadValue<Vector2>();
             inputActions.PlayerMovement.ZoomCamera.performed += z => cameraScroll = z.ReadValue<float>();
+
         }
         inputActions.Enable();
     }

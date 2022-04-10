@@ -139,7 +139,7 @@ Material:
     - Vector1_2d0b0439911843ea8219a42416ed5229: 10
     - Vector1_4b145a47fb31476585a3f24307f555a7: 0.1
     - Vector1_4eebf80a33d3428aa6c065b4904a89ce: 0.75
-    - Vector1_9eb4fca756614e5d9d9b8bb10c7ebdf9: 0.693
+    - Vector1_9eb4fca756614e5d9d9b8bb10c7ebdf9: 0.5
     - Vector1_b277679ab6a749e9b7667d4edcf6093d: 0
     - Vector1_ee71a198bc2e4d0b870cf6e9f4bb99c2: 0.116
     - _AlphaClip: 0
@@ -167,7 +167,7 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
-    - _WindStrength: 0.85
+    - _WindStrength: 0.23
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
